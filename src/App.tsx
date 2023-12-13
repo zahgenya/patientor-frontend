@@ -7,6 +7,7 @@ import { apiBaseUrl } from "./constants";
 import { Patient } from "./types";
 
 import patientService from "./services/patients";
+import diagnosesService from "./services/diagnoses";
 import PatientListPage from "./components/PatientListPage";
 import PatientListPageById from "./components/PatientListPageById";
 
@@ -27,7 +28,12 @@ const App = () => {
     const patient = await patientService.getOne(id);
     return patient;
   };
-  
+
+  const fetchDiagnoses = async () => {
+    const diagnoses = await diagnosesService.getAll();
+    return diagnoses;
+  }
+
   return (
     <div className="App">
       <Router>
@@ -41,7 +47,7 @@ const App = () => {
           <Divider hidden />
           <Routes>
             <Route path="/" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
-            <Route path="/patients/:id" element={<PatientListPageById fetchSinglePatient={fetchSinglePatient}/>} />
+            <Route path="/patients/:id" element={<PatientListPageById fetchSinglePatient={fetchSinglePatient} fetchDiagnoses={fetchDiagnoses}/>} />
           </Routes>
         </Container>
       </Router>
